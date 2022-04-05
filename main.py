@@ -1,12 +1,16 @@
 from PIL import Image
 import csv
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import imshow
 import numpy as np
-
+import matplotlib.image as mpimg
+from scipy import misc
 patterns = []
 totalPixels = 0
 totalCount = 0
 amongUsColors = dict()
+
+Amogus = [[],[],[],[]]
 
 class Pattern:
     def __init__(self, body, visor, delimitator, visorLimit):
@@ -78,7 +82,11 @@ def checkAmogusPatterns(arr, x, y):
     for i in range (0, len(patterns)):
         pat : Pattern = patterns[i]
         if checkPattern(arr, x, y, pat):
-            return True
+            return (True, i)
+        else:
+            return (False, i)
+        
+            
     return False
 
 def main():
@@ -111,43 +119,63 @@ def main():
         [[-1, 1]]))
     
 
-    img = Image.open("place_2k.png")
+    img = Image.open("Figures\place_2k.png")
     width, height = img.size
     print("{0}x{1}".format(width, height))
-    pix = img.convert("RGB").load()
-    print(img.mode)
-    for y in range(0, height):
-        for x in range(0, width):
-            r, g, b = pix[x, y]
-            color = [r, g, b]
-            if(checkAmogusPatterns(pix, x, y)):
-                print("FOUND! At {0}, {1}".format(x, y))
-            
-    print("RESULTS: {0}".format(amongUsColors))
+    # pix = img.convert("RGB").load()
     
-    percentages = []
-    labels = []
-    colors = []
+    print(img.mode)
+    # for y in range(0, height):
+    #     for x in range(0, width):
+    #         r, g, b = pix[x, y]
+    #         color = [r, g, b]
+    #         if (checkAmogusPatterns(pix, x, y)[0]):
+    #             #print("FOUND! At {0}, {1}".format(x, y))
+    #             Amogus[(checkAmogusPatterns(pix, x, y))[1]].append((x,y))
 
-    mappedResults = []
-    for key in amongUsColors:
-        d = dict()
-        d["color"] = key
-        d["count"] = amongUsColors[key]
-        d["percentage"] = (100 / totalCount) * amongUsColors[key]
-        percentages.append(d["percentage"])
-        labels.append("{0} ({1})".format(key, d["count"]))
-        colors.append(key)
-        mappedResults.append(d)
+    # for x in range(10,100):
+    #     for y in range(10,100):
+    #         r = img.getpixel( (x,y) )
+    #         img.putpixel((x, y),r+15)
+
+    #Make the canva grey
+
+    # img1 = img.convert('RGB')  
+    # for x in range(10,100):
+    #     for y in range(10,100):
+    #         r, g, b = img1.getpixel( (x,y) )
+    #         average = (r+g+b)//3
+    #         img1.putpixel((x, y), (average, average,average))
+              
+    # img1.show()
+    
+    
+
+    # print("RESULTS: {0}".format(amongUsColors))
+    
+    # percentages = []
+    # labels = []
+    # colors = []
+
+    # mappedResults = []
+    # for key in amongUsColors:
+    #     d = dict()
+    #     d["color"] = key
+    #     d["count"] = amongUsColors[key]
+    #     d["percentage"] = (100 / totalCount) * amongUsColors[key]
+    #     percentages.append(d["percentage"])
+    #     labels.append("{0} ({1})".format(key, d["count"]))
+    #     colors.append(key)
+    #     mappedResults.append(d)
 
 
-    with open('results.csv', 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames = ["color", "count", "percentage"])
-        writer.writeheader()
-        writer.writerows(mappedResults)
+    # with open('results.csv', 'w') as csvfile:
+    #     writer = csv.DictWriter(csvfile, fieldnames = ["color", "count", "percentage"])
+    #     writer.writeheader()
+    #     writer.writerows(mappedResults)
 
-    plt.pie(np.array(percentages), labels = labels, colors = colors)
-    plt.legend(title = "Colors:",  bbox_to_anchor=(1.5, 1))
-    plt.show() 
+    # plt.pie(np.array(percentages), labels = labels, colors = colors)
+    # plt.legend(title = "Colors:",  bbox_to_anchor=(1.5, 1))
+    # plt.show() 
 if __name__=="__main__":
     main()
