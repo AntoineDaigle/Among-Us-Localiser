@@ -10,7 +10,8 @@ totalPixels = 0
 totalCount = 0
 amongUsColors = dict()
 
-Amogus = [[],[],[],[]]
+Amogus = [[(10,10), (20, 20), (30, 30)],[],[],[]]
+bigleft = [[0, 0], [1, 0], [2, 0], [0, 1], [0, 2], [1, 2], [2, 2], [0, 3], [1, 3], [2, 3], [0, 4], [2, 4], [1, 1], [2, 1], [-1, 3], [-1, 2], [1, 4], [3, 1]]
 
 class Pattern:
     def __init__(self, body, visor, delimitator, visorLimit):
@@ -132,11 +133,14 @@ def main():
     #         if (checkAmogusPatterns(pix, x, y)[0]):
     #             #print("FOUND! At {0}, {1}".format(x, y))
     #             Amogus[(checkAmogusPatterns(pix, x, y))[1]].append((x,y))
+    
+    for l in Amogus[0]:
+        for i in bigleft:
+            img.putpixel((l[0]+i[0], l[1]+i[1]), (0))
 
-    # for x in range(10,100):
-    #     for y in range(10,100):
-    #         r = img.getpixel( (x,y) )
-    #         img.putpixel((x, y),r+15)
+    img.show()
+    
+        
 
     #Make the canva grey
 
